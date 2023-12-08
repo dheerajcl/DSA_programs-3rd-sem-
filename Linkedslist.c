@@ -15,14 +15,19 @@ NODE* insert_at_any(NODE* head,int index);
 NODE* delete_at_beg(NODE* head);
 NODE* delete_at_end(NODE* head);
 NODE* delete_at_anykey(NODE* head,int key);
+NODE* delete_at_any_index(NODE* head, int index1);
 NODE* delete_entirelist(NODE* head);
+NODE* search_element(NODE* head,int ele);
+NODE* reverseList(NODE* head);
+NODE* sort_ascending(NODE* head);
+NODE* sort_descending(NODE* head);
 int main()
 {
     NODE* head=NULL; //list declaration locally
     int ch;
     do
     {
-        printf("Enter the choice:\n 0.Exit\n 1.Display\n 2.insert at beginning\n 3.insert at end\n 4.insert at any position\n 5.delete at beginning\n 6.delete at last\n 7.delete at any key\n 8.delete entire list\n");
+        printf("Enter the choice:\n 0.Exit\n 1.Display\n 2.insert at beginning\n 3.insert at end\n 4.insert at any position\n 5.delete at beginning\n 6.delete at last\n 7.delete at any key\n 8.delete at any position\n 9.delete entire list\n 10.search element\n 11.reverse list\n 12.sort ascending\n 13.sort descending\n");
         scanf("%d",&ch);
         switch(ch)
         {
@@ -53,9 +58,29 @@ int main()
                    scanf("%d",&key);
                    head=delete_at_anykey(head,key);
                    break;
-            case 8:printf("Entered operation is to delete entire list\n");
+            case 8:printf("Enter the index you need to delete:\n");
+                   int index1;
+                   scanf("%d",&index1);
+                   head=delete_at_any_index(head,index1);
+                   break;
+            case 9:printf("Entered operation is to delete entire list\n");
                    head=delete_entirelist(head);
                    break;
+            case 10:printf("Enter the element you need to search:\n");
+                    int ele;
+                    scanf("%d",&ele);
+                    head=search_element(head,ele);
+                    break;
+            case 11:printf("Entered operation is to reverse the list\n");
+                    head=reverseList(head);
+                    break;
+            case 12:printf("Entered operation is to sort the list in ascending order\n");
+                    head=sort_ascending(head);
+                    break;
+            case 13:printf("Entered operation is to sort the list in descending order\n");
+                    head=sort_descending(head);
+                    break;
+
             default:printf("Enter a dataid choice:");
 
         }
@@ -186,8 +211,11 @@ NODE* delete_at_anykey(NODE* head,int key)
     {
         printf("The Linked list is empty");
     }
-    else if(head->data==key)
-        head=delete_at_beg(head);
+    else if(head->data==key){
+        //head=delete_at_beg(head);
+        head=p->next;
+        free(p);
+        p=NULL;}
     else{
         while(p!=NULL&&p->data!=key)
         {
@@ -201,14 +229,120 @@ NODE* delete_at_anykey(NODE* head,int key)
 return head;
 }
 
+NODE* delete_at_any_index(NODE* head, int index){
+    NODE* befp=NULL;
+    NODE* p=head;
+    if(head==NULL){
+        printf("List is empty\n");
+    }
+    else{
+        int count1=0;
+        NODE* befp=NULL;
+        NODE* p=head;
+        while(p!=NULL && count1<index){
+            befp=p;
+            p=p->next;
+            count1++;
+        }
+        if(count1==index){
+            befp->next=p->next;
+            free(p);
+            p=NULL;
+        }
+    }
+    return head;
+}
+
 NODE* delete_entirelist(NODE* head)
 {
     NODE *p = head;
     while(p != NULL)
     {
-        NODE* temp = p;
+        NODE* befp = p;
         p = p->next;
-        free(temp);
+        free(befp);
     }
+    printf("List deleted successfully\n");
     return NULL;
+}
+
+NODE* search_element(NODE* head, int ele) {
+    NODE* p = head;
+    int count2 = 0;
+    if (head == NULL) {
+        printf("List is empty\n");
+    } else {
+        while(p != NULL && p->data != ele) {
+            p = p->next;
+            count2++;
+        }
+        if(p == NULL) {
+            printf("The element is not found\n");
+        } else {
+            printf("The element is found at %d position\n", count2 + 1);
+        }
+    }
+    return head;
+}
+
+NODE* reverseList(NODE* head){
+    NODE* p = head;
+    NODE* befp = NULL;
+    NODE* aftp = NULL;
+    while(p != NULL){
+        aftp = p->next;
+        p->next = befp;
+        befp = p;
+        p = aftp;
+    }
+    head = befp;
+    return head;
+}
+
+NODE* sort_ascending(NODE* head) {
+    if(head == NULL || head->next == NULL) {
+        // If the list is empty or only contains one element, it is already sorted
+        return head;
+    }
+    NODE* p;
+    int swapped;
+    do {
+        swapped = 0;
+        p = head;
+        while(p->next != NULL) {
+            if(p->data > p->next->data) {
+                int temp = p->data;
+                p->data = p->next->data;
+                p->next->data = temp;
+
+                swapped = 1;
+            }
+            p = p->next;
+        }
+    } while(swapped);
+    return head;
+}
+
+NODE* sort_descending(NODE* head) {
+    if(head == NULL || head->next == NULL) {
+        // If the list is empty or only contains one element, it is already sorted
+        return head;
+    }
+    NODE* p;
+    int swapped;
+    do {
+        swapped = 0;
+        p = head;
+        while(p->next != NULL) {
+            if(p->data < p->next->data) {
+                int temp = p->data;
+                p->data = p->next->data;
+                p->next->data = temp;
+
+                swapped = 1;
+            }
+            p = p->next;
+        }
+    } while(swapped);
+    return head;
 }
