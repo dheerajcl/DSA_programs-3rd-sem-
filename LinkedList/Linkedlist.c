@@ -13,6 +13,7 @@ NODE* insert_at_beg(NODE* head);
 NODE* insert_at_end(NODE* head);
 NODE* insert_at_end1(NODE* head2);
 NODE* insert_at_any(NODE* head,int index);
+NODE* insert_at_any_key(NODE* head, int key1);
 NODE* delete_at_beg(NODE* head);
 NODE* delete_at_end(NODE* head);
 NODE* delete_at_anykey(NODE* head,int key);
@@ -34,7 +35,7 @@ int main()
     int ch;
     do
     {
-        printf("Enter the choice:\n 0.Exit\n 1.Display\n 2.insert at beginning\n 3.insert at end\n 4.insert at any position\n 5.delete at beginning\n 6.delete at last\n 7.delete at any key\n 8.delete at any position\n 9.delete entire list\n 10.search element\n 11.reverse list\n 12.sort ascending\n 13.sort descending\n 14.delete even nodes\n 15.concat\n 16.insert at end in list2\n 17.count all keys\n 18.delete duplicates\n 19.delete duplicates1\n");
+        printf("Enter the choice:\n 0.Exit\n 1.Display\n 2.insert at beginning\n 3.insert at end\n 4.insert at any position\n 5.insert after desired key\n 6.delete at beginning\n 7.delete at last\n 8.delete at any key\n 9.delete at any position\n 10.delete entire list\n 11.search element\n 12.reverse list\n 13.sort ascending\n 14.sort descending\n 15.delete even nodes\n 16.concat\n 17.insert at end in list2\n 18.count all keys\n 19.delete duplicates\n 20.delete duplicates1\n");
         scanf("%d",&ch);
         switch(ch)
         {
@@ -54,55 +55,59 @@ int main()
                    scanf("%d",&index);
                    head=insert_at_any(head,index);
                    break;
-            case 5:printf("Entered choice is delete at beg:\n");
+            case 5:printf("Enter the key after which you need to insert an element\n");
+                    int key1;
+                    scanf("%d",&key1);
+                    head=insert_at_any_key(head,key1);
+            case 6:printf("Entered choice is delete at beg:\n");
                    head=delete_at_beg(head);
                    break;
-            case 6:printf("Entered choice is delete at end:\n");
+            case 7:printf("Entered choice is delete at end:\n");
                    head=delete_at_end(head);
                    break;
-            case 7:printf("Enter the key you need to delete:\n");
+            case 8:printf("Enter the key you need to delete:\n");
                    int key;
                    scanf("%d",&key);
                    head=delete_at_anykey(head,key);
                    break;
-            case 8:printf("Enter the index you need to delete:\n");
+            case 9:printf("Enter the index you need to delete:\n");
                    int index1;
                    scanf("%d",&index1);
                    head=delete_at_any_index(head,index1);
                    break;
-            case 9:printf("Entered operation is to delete entire list\n");
+            case 10:printf("Entered operation is to delete entire list\n");
                    head=delete_entirelist(head);
                    break;
-            case 10:printf("Enter the element you need to search:\n");
+            case 11:printf("Enter the element you need to search:\n");
                     int ele;
                     scanf("%d",&ele);
                     head=search_element(head,ele);
                     break;
-            case 11:printf("Entered operation is to reverse the list\n");
+            case 12:printf("Entered operation is to reverse the list\n");
                     head=reverseList(head);
                     break;
-            case 12:printf("Entered operation is to sort the list in ascending order\n");
+            case 13:printf("Entered operation is to sort the list in ascending order\n");
                     head=sort_ascending(head);
                     break;
-            case 13:printf("Entered operation is to sort the list in descending order\n");
+            case 14:printf("Entered operation is to sort the list in descending order\n");
                     head=sort_descending(head);
                     break;
-            case 14:printf("Entered operation is to delete even nodes\n");
+            case 15:printf("Entered operation is to delete even nodes\n");
                     head=del_evenNodes(head);
                     break;
-            case 15:printf("Entered operation is to concatenate two lists\n");
+            case 16:printf("Entered operation is to concatenate two lists\n");
                     head=concat(head,head2);
                     break;
-            case 16:printf("Entered operation is to insert at end in list2\n");
+            case 17:printf("Entered operation is to insert at end in list2\n");
                     head2=insert_at_end1(head2);
                     break;
-            case 17:printf("Entered operation is to count all keys\n");
+            case 18:printf("Entered operation is to count all keys\n");
                     count_all_keys(head);
                     break;
-            case 18:printf("Entered operation is to delete duplicates\n");
+            case 19:printf("Entered operation is to delete duplicates\n");
                     head=delete_duplicates(head);
                     break;
-            case 19:printf("Entered operation is to delete duplicates\n");
+            case 20:printf("Entered operation is to delete duplicates\n");
                     head=delete_duplicates1(head);
                     break;
             default:printf("Enter a dataid choice:");
@@ -110,6 +115,7 @@ int main()
         }
     }while(ch!=0);
 }
+
 void display(NODE* head)
 {
     NODE* p=head;
@@ -222,6 +228,35 @@ NODE* insert_at_any(NODE* head,int index)
 
     return head;
 }
+
+NODE* insert_at_any_key(NODE* head, int key1){
+    if(head==NULL){
+        printf("Linked List is empty");
+    }
+    else{
+        NODE* temp=init();
+        printf("Enter the data:");
+        scanf("%d",&temp->data);
+        temp->next=NULL;
+        NODE* p=head;
+        NODE* befp=NULL;
+        while(p!=NULL && p->data!=key1){
+            befp=p;
+            p=p->next;
+        }
+        if(p==NULL)
+        printf("Element not found");
+        else{
+        temp->next=p->next;
+        if(befp==NULL)
+            head=temp;
+        else
+            befp->next=temp;
+    }
+    }
+    return head;
+}
+
 NODE* delete_at_beg(NODE* head)
 {
     if(head==NULL)
@@ -509,3 +544,40 @@ NODE* delete_duplicates1(NODE* head){
     }
     return head;
 }
+
+//Palindrome
+
+/*bool isPalindrome(struct ListNode* head) {
+    struct ListNode* slow=head;
+    struct ListNode* fast=head;
+    struct ListNode* middle=NULL;
+    
+    while(fast!=NULL && fast->next!=NULL){
+        slow=slow->next;
+        fast=fast->next->next;
+    }
+
+    struct ListNode* aftp=NULL;
+    struct ListNode* befp=NULL;
+    struct ListNode* p=head;    
+
+    while (p != slow) {
+        aftp = p->next;
+        p->next = befp;
+        befp = p;
+        p = aftp;
+    }
+    
+    middle=(fast!=NULL)?slow->next:slow;
+
+    while (befp != NULL && middle != NULL) {
+        if (befp->val != middle->val) {
+            return false;
+        }
+        befp = befp->next;
+        middle = middle->next;
+    }
+
+    return true;
+}
+*/

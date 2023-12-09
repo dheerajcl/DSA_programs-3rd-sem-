@@ -240,27 +240,28 @@ int pop(NODE* head){
 	}
 	else{
 		int toReturn = head->data;
-		NODE* toDelete = head;
+		NODE* p = head;
 		head = head->next;
-		free(toDelete);
+		free(p);
 		return toReturn;
 	}
 
 }
 
 int search(NODE* head,int data){
-	NODE* temp = head;
+	NODE* p = head;
 	int count=0;
 
-	while(temp!=NULL){
-		if(temp->data==data){
-			return count;
-		}
+	while(p!=NULL && p->data!=data){
 		count++;
-		temp = temp->next;
+		p = p->next;
 	}
-
-	return -1;
+	if(p==NULL){
+		return -1;
+	}
+	else{
+		return count;
+	}
 }
 
 void display(NODE* head){

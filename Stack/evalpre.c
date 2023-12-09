@@ -43,15 +43,15 @@ int main()
 {
 	STACK opst;
 	init(&opst);
-	char post[20],ch;
+	char pre[20],ch;
 	float op1,op2,res;
 	int i;
 	printf("enter the string\n");
-	gets(post);			//3+2*1*4/2-3---321*4*2/+3-
-	i = strlen(post);
+	gets(pre);			//3+2*1*4/2-3---321*4*2/+3-
+	i = strlen(pre);
 	for(i;i>=0;i--)
 	{
-		ch = post[i];
+		ch = pre[i];
 		if(isdigit(ch))
 			push(&opst, ch-'0');
 		else

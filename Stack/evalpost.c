@@ -6,10 +6,12 @@ typedef struct stack
 	float s[max];
 	int top;
 }STACK;
+
 void init(STACK* ST)
 {
 	ST->top = -1;
 }
+
 void push(STACK* st, float s)
 {
 	if(st->top==max-1)
@@ -20,8 +22,9 @@ void push(STACK* st, float s)
 		st->s[st->top] = s;
 	}
 }
-float pop(STACK* st)
-{float x;
+
+float pop(STACK* st){
+float x;
 	if(st->top==-1)
 		printf("UNDERflow\n");
 	else
@@ -31,8 +34,10 @@ float pop(STACK* st)
 	}
 	return x;
 }
-float edatauate_post(STACK* st, char* post)
-{float res;
+
+float evaluate_post(STACK* st, char* post)
+{
+	float res;
 	int i;
 	float op1,op2;
 	char ss;
@@ -53,7 +58,7 @@ float edatauate_post(STACK* st, char* post)
 			else if(ss == '/')
 				res = op1/op2;
 			else
-				printf("indataid \n");
+				printf("invalid \n");
 			push(st, res);
 		}	
 	}
@@ -67,7 +72,7 @@ int main()
 	char post[10];
 	printf("enter the postfix expression\n");
 	gets(post);
-	float res = edatauate_post(&st, post);
+	float res = evaluate_post(&st, post);
 	printf("output = %f\n", res);
 return 0;
 }
