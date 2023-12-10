@@ -47,7 +47,7 @@ int dequeue(PQ *pt, int *ele)
     else
         c = 1;
     if (pt->n > 2 && pt->pq[2] > pt->pq[1])
-        c = c + 1;
+        c = 2;
     while (c >= 0 && elt < pt->pq[c])
     {
         pt->pq[p] = pt->pq[c];

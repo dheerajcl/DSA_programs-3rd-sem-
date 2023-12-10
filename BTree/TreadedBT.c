@@ -70,6 +70,7 @@ void inOrder(TREE *t)
         }
     } while (q != NULL);
 }
+
 void create(TREE *pt)
 {
     NODE *p, *q;
@@ -104,6 +105,7 @@ void create(TREE *pt)
         scanf("%d", &wish);
     } while (wish);
 }
+
 int main()
 {
     TREE t;

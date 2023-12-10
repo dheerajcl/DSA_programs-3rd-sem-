@@ -9,13 +9,14 @@ int main()
     printf("enter the elements\n");
     for (i = 0; i < n; i++)
         scanf("%d", &a[i]);
+
     // Heapify
     for (i = 1; i < n; i++)
     {
         elt = a[i];
         c = i;
         p = (c - 1) / 2;
-        while (c > 0 && a[p] < elt)
+        while (c > 0 && a[p] < elt)             //while (c > 0 && a[p] > elt)   for min heap
         {
             a[c] = a[p];
             c = p;
@@ -27,6 +28,7 @@ int main()
     printf("\nElements of heap:\n");
     for (i = 0; i < n; i++)
         printf("%d ", a[i]);
+        
     // Heap sort
     for (i = n - 1; i > 0; i--)
     {
@@ -37,21 +39,21 @@ int main()
             c = -1;
         else
             c = 1;
-        if (i > 2 && a[2] > a[1])
+        if (i > 2 && a[2] > a[1])               //if (i > 2 && a[2] < a[1])   for min heap
             c = 2;
-        while (c >= 0 && elt < a[c])
+        while (c >= 0 && elt < a[c])            //while (c >= 0 && elt > a[c])  for min heap
         {
             a[p] = a[c];
             p = c;
             c = 2 * p + 1;
-            if (c + 1 <= i - 1 && a[c] < a[c + 1])
+            if (c + 1 <= i - 1 && a[c] < a[c + 1])      //if (c + 1 <= i - 1 && a[c] > a[c + 1])  for min heap
                 c = c + 1;
             if (c > i - 1)
                 c = -1;
         }
         a[p] = elt;
     }
-    printf("\nSorted elements(Heap sort):\n");
+    printf("\nSorted elements(Heap sort):\n");        // for min heap sorting is in descending order
     for (i = 0; i < n; i++)
         printf("%d ", a[i]);
     printf("\n");
