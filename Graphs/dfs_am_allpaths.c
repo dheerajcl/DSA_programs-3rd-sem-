@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 int a[10][10], n, p = 0;
+
 void read_ad_mat()
 {
     for (int i = 0; i < n; i++)
@@ -35,6 +36,7 @@ void printall(int u, int d, int visited[10], int path[10])
     p--;
     visited[u] = 0;
 }
+
 void printpath(int s, int d)
 {
     int visited[10];
@@ -44,6 +46,8 @@ void printpath(int s, int d)
         visited[i] = 0;
     printall(s, d, visited, path);
 }
+
+
 int main()
 {
     int i, so, de;
