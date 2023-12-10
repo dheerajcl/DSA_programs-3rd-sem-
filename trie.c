@@ -30,58 +30,58 @@ NODE* getNode()
 
 void insert(NODE* root, char* key)
 {
-	NODE* curr;
+	NODE* p;
 	int i, index;
-	curr = root;
+	p = root;
 	for(i=0;key[i]!='\0';i++)
 	{
 		index = key[i]- 'a';	//get ascii value of char
-		if(curr->child[index] == NULL)
-			curr->child[index] = getNode();
-		curr = curr->child[index];
+		if(p->child[index] == NULL)
+			p->child[index] = getNode();
+		p = p->child[index];
 	}
-	curr->EOW = 1;
+	p->EOW = 1;
 }
 
-void display(NODE* curr)//.........,int count
+void display(NODE* p)//.........,int count
 {
 	int i,j;
 	for(i=0;i<26;i++)
 	{
-		if(curr->child[i]!=NULL)
+		if(p->child[i]!=NULL)
 		{
 			word[length++] = i + 'a';//get ascii value of char
 			
-			if(curr->child[i]->EOW == 1)
+			if(p->child[i]->EOW == 1)
 			{
 				printf("\n");
 				for(j=0;j<length;j++)
 					printf("%c", word[j]);
 			}
 		
-		display(curr->child[i]);
+		display(p->child[i]);
 		}
 	}
 	length--;
 	return ;
 
 }
-void display_length(NODE* curr, int count)
+void display_length(NODE* p, int count)
 {
 	int i,j;
 	for(i=0;i<26;i++)
 	{
-		if(curr->child[i]!=NULL)
+		if(p->child[i]!=NULL)
 		{
 			word[length++] = i + 'a'; //get ascii value of char
-			if((curr->child[i]->EOW == 1) && (length==count))
+			if((p->child[i]->EOW == 1) && (length==count))
 			{
 				printf("\n");
 				for(j=0;j<length;j++)
 					printf("%c", word[j]);
 			}
 		
-		display_length(curr->child[i], count);
+		display_length(p->child[i], count);
 		}
 	}
 	length--;
@@ -90,42 +90,42 @@ void display_length(NODE* curr, int count)
 }
 void display_prefix(NODE* root, char* key)
 {
-	NODE* curr = root;
+	NODE* p = root;
 	int i,j,index;
 	for(i=0;key[i]!='\0';i++)
 	{
 		index = key[i] - 'a';
 
-		if(curr->child[index]!=NULL)
+		if(p->child[index]!=NULL)
 		{
 			word[length++] = index + 'a';//get ascii value of char
-			curr = curr->child[index];
+			p = p->child[index];
 		}
 		else
 			return;
 	}
-	if(curr->EOW == 1)
+	if(p->EOW == 1)
 	{
 		printf("\n");
 		for(j=0;j<length;j++)
 			printf("%c", word[j]);
 	}
 		
-	display(curr);
+	display(p);
 		
 }
 int search(NODE* root, char* key)
 {
 	int i, index;
-	NODE* curr = root;
+	NODE* p = root;
 	for(i=0;key[i]!='\0';i++)
 	{
 		index = key[i]- 'a';	//get ascii value of char
-		if(curr->child[index] == NULL)
+		if(p->child[index] == NULL)
 			return 0;
-		curr = curr->child[index];
+		p = p->child[index];
 	}
-	if(curr->EOW == 1)
+	if(p->EOW == 1)
 		return 1;
 	return 0;
 }
@@ -144,34 +144,36 @@ STACK pop()
 	top--;
 	return temp;
 }
+
 int check(NODE* root)
 {
 	int i,count=0;
-	NODE* curr = root;
+	NODE* p = root;
 	for(i=0;i<26;i++)
-		if(curr->child[i]!=NULL)
+		if(p->child[i]!=NULL)
 			count++;
 	return count;
 }
+
 void delete(NODE* root,char* key)
 {
 	int i,index,k;
 	STACK x;
-	NODE* curr =root;
+	NODE* p =root;
 	for(i=0;key[i]!='\0';i++)
 	{
 		index = key[i]-'a';
-		if(curr->child[index]==NULL)
+		if(p->child[index]==NULL)
 		{
 			printf("word not found\n");
 			return;
 		}
-		push(curr,index);//before going to next node, to keep track of path
-		curr = curr->child[index];//curr->child[index] = NULL
+		push(p,index);//before going to next node, to keep track of path
+		p = p->child[index];//p->child[index] = NULL
 	}
 	
-	curr->EOW = 0;
-	push(curr,-1);
+	p->EOW = 0;
+	push(p,-1);
 	
 	while(1)
 	{
@@ -188,6 +190,7 @@ void delete(NODE* root,char* key)
 	}
 	return;
 }
+
 int main()
 {
 	char key[100];
@@ -236,3 +239,45 @@ while(1)
 }
 return 0;
 }
+
+
+/*
+int countWordsWithPrefix(NODE* root, char* prefix)
+{
+    NODE* p = root;
+    int index;
+
+    // Traverse the trie to the node that represents the last character of the prefix
+    for (int i = 0; prefix[i] != '\0'; i++)
+    {
+        index = prefix[i] - 'a';
+        if (p->child[index] == NULL)
+        {
+            return 0; // Prefix not found in trie
+        }
+        p = p->child[index];
+    }
+
+    // Count the number of words that start with the prefix
+    return countWords(p);
+}
+
+int countWords(NODE* node)
+{
+    if (node == NULL)
+    {
+        return 0;
+    }
+
+    // Count this node if it represents the end of a word
+    int count = node->EOW;
+
+    // Count words in the subtrees
+    for (int i = 0; i < 26; i++)
+    {
+        count += countWords(node->child[i]);
+    }
+
+    return count;
+}
+*/
